@@ -2,6 +2,7 @@ var play_board = ["", "", "", "", "", "", "", "", ""];
 
 var player = "X";
 var computer = "O";
+var player_name = "";
 
 var board_full = false;
 
@@ -13,6 +14,10 @@ function render_board() {
     for(i=0; i<9; i++) {
         board_container.innerHTML += `<div id="block_${i}" class="block" onclick="addPlayerMove(${i})"> ${play_board[i]} </div>`;
     }
+}
+
+function set_player_name(name) {
+    player_name = name;
 }
 
 function addPlayerMove(i) {
@@ -91,7 +96,10 @@ function check_winner() {
 function update_winner() {
     var res = check_winner();
     if(res == player) {
-        winner_statement.innerText = "Player Wins!";
+        if (player_name == "")
+            winner_statement.innerText = "Player Wins!";
+       else
+            winner_statement.innerText = player_name + " Wins!";
         board_full = true;
     }
     else if (res == computer) {
