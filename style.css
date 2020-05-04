@@ -53,3 +53,15 @@ button:hover {
     cursor: pointer;
     background: #0ff30f;
 }
+
+@media screen and (max-width: 600px) {
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5em;
+    }
+
+    h2 {
+        margin-top: 1em;
+        font-size: 1.3rem;
+    }
+}

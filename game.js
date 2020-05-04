@@ -64,7 +64,7 @@ function check_line(a, b, c) {
 
 function check_winner() {
     // Check rows
-    for(i=0; i<3; i+=3) {
+    for(i=0; i<9; i+=3) {
         if(check_line(i, i+1, i+2)) {
             return play_board[i];
         }
