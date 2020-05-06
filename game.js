@@ -97,18 +97,35 @@ function update_winner() {
     var res = check_winner();
     if(res == player) {
         if (player_name == "")
-            winner_statement.innerText = "Player Wins!";
+            showWinnerMessage("Player Wins!");
        else
-            winner_statement.innerText = player_name + " Wins!";
+            showWinnerMessage(player_name + " Wins!");
         board_full = true;
     }
     else if (res == computer) {
-        winner_statement.innerText = "Computer Wins";
+        showWinnerMessage("Computer Wins");
         board_full = true;
     }
     else if (board_full) {
-        winner_statement.innerText = "Draw";
+        showWinnerMessage("Draw");
     }
+}
+
+// Android functions
+function showWinnerMessage(s) {
+    console.log("Winner");
+    // winner_statement.innerText = s;
+    Android.showToast(s);
+}
+
+function on_close() {
+    console.log("Closing");
+    Android.close();
+}
+
+function open_url() {
+    console.log("Opening URL");
+    Android.open("www.google.com");
 }
 
 function reset_board() {
