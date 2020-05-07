@@ -143,6 +143,22 @@ function getOrientation() {
 }
 
 
+function triggeredEventFromApp(event) {
+    switch(event) {
+        case "ready":
+            // App is ready, I've finished loading
+            render_board();
+            getScreenSize();
+            getOrientation();
+            break;
+
+        case "orientation":
+            // Orientation change
+            getOrientation();
+            break;
+    }
+    debug.innerText = event;
+}
 
 function reset_board() {
     for(i=0; i<9; i++) {
@@ -153,6 +169,6 @@ function reset_board() {
     render_board();
 }
 
-render_board()
-getScreenSize()
-getOrientation()
+// render_board()
+// getScreenSize()
+// getOrientation()
