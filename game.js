@@ -8,6 +8,7 @@ var board_full = false;
 
 var board_container = document.querySelector(".play-area");
 var winner_statement = document.getElementById("winner");
+var debug = document.getElementById("debug");
 
 function render_board() {
     board_container.innerHTML = "";
@@ -125,8 +126,17 @@ function on_close() {
 
 function open_url() {
     console.log("Opening URL");
-    Android.open("www.google.com");
+    Android.open("https://www.google.com");
 }
+
+function getScreenSize() {
+    console.log("Fetching display metrics");
+    var metrics = Android.getScreenSize();
+    console.log(metrics);
+    debug.innerText = metrics;
+}
+
+
 
 function reset_board() {
     for(i=0; i<9; i++) {
@@ -138,3 +148,4 @@ function reset_board() {
 }
 
 render_board()
+getScreenSize()
