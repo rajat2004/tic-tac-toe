@@ -136,6 +136,12 @@ function getScreenSize() {
     debug.innerText = metrics;
 }
 
+function getOrientation() {
+    var orientation = Android.getOrientation();
+    console.log(orientation);
+    debug.innerText = orientation;
+}
+
 
 
 function reset_board() {
@@ -149,3 +155,4 @@ function reset_board() {
 
 render_board()
 getScreenSize()
+getOrientation()
