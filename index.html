@@ -8,18 +8,32 @@
     </head>
 
     <body>
+        <!-- <video autoplay>
+            <source src="tutorial.mp4" type="video/mp4">
+                Video tag not supported
+        </video> -->
         <div class="container">
+
+
             <h1>Tic-Tac-Toe</h1>
             <div class="play-area">
             </div>
 
             <h2 id="winner"></h2>
-            <button onclick="reset_board()">RESET BOARD</button>
+            <button id="replay-btn" onclick="replay()">REPLAY</button>
             <button id="close-btn" onclick="on_close()">CLOSE</button>
             <button id="open-url" onclick="open_url()">URL</button>
 
             <h2 id="debug"></h2>
-        <script src="game.js"></script>
+
+            <h2 id="timer"> </h2>
+
+            <div>
+                <img id="ad-logo" src="ad_logo.png">
+            </div>
+
+            <script src="game.js"></script>
+
         </div>
     </body>
 </html>

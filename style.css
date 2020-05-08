@@ -6,12 +6,34 @@
 }
 
 .container {
+    position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: #eee;
+}
+
+.logo {
+    position: absolute;
+    zoom: 2;
+    width: 100%;
+    /*height: 100%;*/
+    /*min-width: 100%;
+    min-height: 100%;*/
+    /*min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto*/
+    /*background-color: rgba(0,0,0,0.5);  Black background with opacity*/
+    /*z-index: 10;*/
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    /*object-fit: cover;*/
 }
 
 button {
@@ -30,27 +52,21 @@ button:hover {
     color: white;
 }
 
-#close-btn {
-    outline: none;
-    border: 4px solid red;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    background: none;
-    transition: all 0.2s ease-in-out;
-}
-
 .play-area {
     display: grid;
-    width: 300px;
-    height: 300px;
+    /*width: 300px;*/
+    width: 90vmin;
+    /*height: 300px;*/
+    height: 90vmin;
     grid-template-columns: auto auto auto;
 }
 
 .block {
     display: flex;
-    width: 100px;
-    height: 100px;
+    /*width: 100px;*/
+    /*height: 100px;*/
+    width: 30vmin;
+    height: 30vmin;
     align-items: center;
     justify-content: center;
     font-size: 3rem;
@@ -62,6 +78,28 @@ button:hover {
 .block:hover {
     cursor: pointer;
     background: #0ff30f;
+}
+
+#timer {
+    position: absolute;
+    /* float: right;
+    padding: 15px; */
+    top: 5px;
+    right: 10px;
+}
+
+#close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    outline: none;
+    border: 4px solid red;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    background: none;
+    transition: all 0.2s ease-in-out;
 }
 
 @media screen and (max-width: 600px) {
