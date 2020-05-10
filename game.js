@@ -17,7 +17,8 @@ var timeout = 10; // 10s timeout
 var timer_label = document.getElementById("timer");
 var close_btn = document.getElementById("close-btn");
 var replay_btn = document.getElementById("replay-btn");
-var logo = document.getElementById("ad-logo");
+var url_btn = document.getElementById("open-url");
+var logo = document.getElementById("img");
 
 
 // Events triggered by App
@@ -144,8 +145,26 @@ function update_winner() {
         showWinnerMessage("Draw");
     }
 
-    // Show replay button
+    // Show end screen
+    showEndScreen();
+}
+
+function showEndScreen() {
+    displayLogo();
+
+    var logo_index = 10; // Query this?
+
+    // Show close,url,replay above logo
+    close_btn.style.zIndex = logo_index+1;
+    url_btn.style.zIndex = logo_index+1;
+    replay_btn.style.zIndex = logo_index+1;
+
     replay_btn.style.display = 'block';
+}
+
+function hideEndScreen() {
+    hideLogo();
+    replay_btn.style.display = 'none';
 }
 
 function reset_board() {
@@ -157,26 +176,12 @@ function reset_board() {
     render_board();
 }
 
-// function toggleLogo() {
-//     if(logo.style.display == 'block') {
-//         logo.style.display = 'none';
-//         board_container.style.display = 'true';
-//     }
-//     else {
-//         logo.style.display = 'block';
-//         board_container.style.display = 'none';
-//     }
-//     // logo.style.display = 'none';
-// }
-
 function displayLogo() {
     logo.style.display = 'block';
-    // board_container.style.display = 'none';
 }
 
 function hideLogo() {
     logo.style.display = 'none';
-    // board_container.style.display = 'block';
 }
 
 
@@ -186,8 +191,7 @@ function onAppReady() {
 
     // Show image for 2 second
     displayLogo();
-    setTimeout(hideLogo, 5*1000);
-    // logo.style.display = 'none';
+    setTimeout(hideLogo, 2*1000);
 
     // Hide close button, show timer
     close_btn.style.display = 'none';
@@ -230,8 +234,6 @@ function setAdSize() {
 function setTime() {
     ++totalSeconds;
     timeout--;
-    // timer_label.innerText = totalSeconds.toString();
-    // timer_label.innerHTML = "<h2>" + totalSeconds.toString() + "</h2>";
     timer_label.innerHTML = "<h2>" + timeout.toString() + "</h2>";
     console.log("setTime called: " + totalSeconds);
 }
@@ -278,13 +280,11 @@ function getScreenSize() {
     console.log("Fetching display metrics");
     size = Android.getScreenSize();
     console.log(size);
-    // debug.innerText = size;
 }
 
 function getOrientation() {
     var orientation = Android.getOrientation();
     console.log("Orientation" + orientation);
-    // debug.innerText = orientation;
 }
 
 function registerClick() {
@@ -295,6 +295,7 @@ function registerClick() {
 function replay() {
     console.log("Replaying");
     Android.registerReplay();
+    hideEndScreen();
     reset_board();
 }
 
