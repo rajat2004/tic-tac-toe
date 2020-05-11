@@ -25,7 +25,7 @@ var logo = document.getElementById("img");
 var ready = new Event('ready');
 var resume = new Event('resume');
 var pause = new Event('pause');
-var orientation = new Event("orientation");
+var orien = new Event('orientation');
 
 window.addEventListener("ready", onAppReady);
 window.addEventListener("resume", onAppResume);
@@ -121,7 +121,7 @@ function check_winner() {
 
 function update_winner() {
     var res = check_winner();
-    if (res == "") {
+    if (res == "" && board_full!=true) {
         // No winner till now
         if (replay_btn.style.display == 'block') {
             replay_btn.style.display = 'none';
@@ -158,13 +158,18 @@ function showEndScreen() {
     close_btn.style.zIndex = logo_index+1;
     url_btn.style.zIndex = logo_index+1;
     replay_btn.style.zIndex = logo_index+1;
+    winner_statement.style.zIndex = logo_index+1;
 
     replay_btn.style.display = 'block';
+
+    // Show winner
+    winner_statement.style.display = 'block';
 }
 
 function hideEndScreen() {
     hideLogo();
     replay_btn.style.display = 'none';
+    winner_statement.style.display = 'none';
 }
 
 function reset_board() {
@@ -187,6 +192,7 @@ function hideLogo() {
 
 // Event handlers
 function onAppReady() {
+    console.log("Ready event triggered");
     render_board();
 
     // Show image for 2 second
@@ -283,8 +289,8 @@ function getScreenSize() {
 }
 
 function getOrientation() {
-    var orientation = Android.getOrientation();
-    console.log("Orientation" + orientation);
+    var orientation_ = Android.getOrientation();
+    console.log("Orientation: " + orientation_);
 }
 
 function registerClick() {
