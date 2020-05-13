@@ -17,22 +17,16 @@ var timeout = 10; // 10s timeout
 var timer_label = document.getElementById("timer");
 var close_btn = document.getElementById("close-btn");
 var replay_btn = document.getElementById("replay-btn");
-var url_btn = document.getElementById("open-url");
+var url_btn = document.getElementById("open-url-btn");
 var logo = document.getElementById("img");
 
+window.addEventListener(EVENTS.READY, onAppReady);
+window.addEventListener(EVENTS.RESUME, onAppResume);
+window.addEventListener(EVENTS.PAUSE, onAppPause);
+window.addEventListener(EVENTS.RESUME, onAppOrientationChange);
 
-// Events triggered by App
-var ready = new Event('ready');
-var resume = new Event('resume');
-var pause = new Event('pause');
-var orien = new Event('orientation');
-
-window.addEventListener("ready", onAppReady);
-window.addEventListener("resume", onAppResume);
-window.addEventListener("pause", onAppPause);
-window.addEventListener("orientation", onAppOrientationChange);
-
-
+var timer_var;
+var timeout_toggle;
 
 function render_board() {
     board_container.innerHTML = "";
@@ -147,6 +141,11 @@ function update_winner() {
 
     // Show end screen
     showEndScreen();
+
+    if (timeout != 0) {
+        clearTimeout(timeout_toggle);
+        toggleTimerCloseButton();
+    }
 }
 
 function showEndScreen() {
@@ -159,6 +158,7 @@ function showEndScreen() {
     url_btn.style.zIndex = logo_index+1;
     replay_btn.style.zIndex = logo_index+1;
     winner_statement.style.zIndex = logo_index+1;
+    timer_label.style.zIndex = logo_index+1;
 
     replay_btn.style.display = 'block';
 
@@ -169,7 +169,7 @@ function showEndScreen() {
 function hideEndScreen() {
     hideLogo();
     replay_btn.style.display = 'none';
-    winner_statement.style.display = 'none';
+    // winner_statement.style.display = 'none';
 }
 
 function reset_board() {
@@ -189,6 +189,53 @@ function hideLogo() {
     logo.style.display = 'none';
 }
 
+function reset_timer() {
+    timeout = 10;
+    // Hide close button, show timer
+    close_btn.style.display = 'none';
+    timer_label.innerText = timeout;
+    timer_label.style.display = 'block';
+    // toggleTimerCloseButton();
+
+    // Hide Replay buttton
+    replay_btn.style.display = 'none';
+
+    timer_var = setInterval(setTimer, 1000);    // Update timer every 1s
+    timeout_toggle = setTimeout(toggleTimerCloseButton, 10*1000);   // Hide timer, show close button after 10s
+}
+
+function setTimer() {
+    timeout--;
+    timer_label.innerText = timeout;
+}
+
+function totalTime() {
+    ++totalSeconds;
+    console.log("Total time elapsed: " + totalSeconds);
+}
+
+function toggleTimerCloseButton() {
+    var display_setting = close_btn.style.display;
+    console.log("Close btn diplay setting: " + display_setting.toString());
+    if (display_setting == 'block') {
+        // Button is visible, hide it
+        close_btn.style.display = 'none';
+
+        // Show timer
+        timer_label.style.display = 'block';
+    }
+    else {
+        // Stop timer execution
+        clearInterval(timer_var);
+
+        // Button is hidden, show it
+        close_btn.style.display = 'block';
+
+        // Hide timer
+        timer_label.style.display = 'none';
+    }
+}
+
 
 // Event handlers
 function onAppReady() {
@@ -199,17 +246,7 @@ function onAppReady() {
     displayLogo();
     setTimeout(hideLogo, 2*1000);
 
-    // Hide close button, show timer
-    close_btn.style.display = 'none';
-
-    // Hide Replay buttton
-    replay_btn.style.display = 'none';
-
-    // Measure time spent in ad
-    setInterval(setTime, 1000);
-
-    // After 10 seconds, hide timer and show close btn
-    setTimeout(toggleCloseButton, timeout*1000);
+    reset_timer();
 }
 
 
@@ -235,32 +272,6 @@ function setAdSize() {
     var height = parseInt( size.slice(size.indexOf(",")+2, size.length-1) );
     console.log("Width: " + width.toString());
     window.resizeTo(width, height);
-}
-
-function setTime() {
-    ++totalSeconds;
-    timeout--;
-    timer_label.innerHTML = "<h2>" + timeout.toString() + "</h2>";
-    console.log("setTime called: " + totalSeconds);
-}
-
-function toggleCloseButton() {
-    var display_setting = close_btn.style.display;
-    console.log("Close btn diplay setting: " + display_setting);
-    if (display_setting == 'block') {
-        // Button is visible, hide it
-        close_btn.style.display = 'none';
-
-        // Show timer
-        timer_label.style.display = 'block';
-    }
-    else {
-        // Button is hidden, show it
-        close_btn.style.display = 'block';
-
-        // Hide timer
-        timer_label.style.display = 'none';
-    }
 }
 
 
@@ -302,6 +313,7 @@ function replay() {
     console.log("Replaying");
     Android.registerReplay();
     hideEndScreen();
+    reset_timer();
     reset_board();
 }
 
