@@ -10,7 +10,6 @@ var board_container = document.querySelector(".play-area");
 var winner_statement = document.getElementById("winner");
 var debug = document.getElementById("debug");
 
-var size = "";
 
 var totalSeconds = 0;
 var timeout = 10; // 10s timeout
@@ -23,7 +22,7 @@ var logo = document.getElementById("img");
 window.addEventListener(EVENTS.READY, onAppReady);
 window.addEventListener(EVENTS.RESUME, onAppResume);
 window.addEventListener(EVENTS.PAUSE, onAppPause);
-window.addEventListener(EVENTS.RESUME, onAppOrientationChange);
+window.addEventListener(EVENTS.ORIENTATION, onAppOrientationChange);
 
 var timer_var;
 var timeout_toggle;
@@ -251,8 +250,7 @@ function onAppReady() {
 
 
 function onAppOrientationChange() {
-    getOrientation();
-    getScreenSize();
+    // HotstarAppInterface.getOrientation();
     setAdSize();
     render_board();
 }
@@ -266,52 +264,44 @@ function onAppResume() {
 }
 
 function setAdSize() {
-    // Hacky solution to extract width, height
-    // String format - Point(w, h)
-    var width = parseInt( size.slice(size.indexOf("(")+1, size.indexOf(",")) );
-    var height = parseInt( size.slice(size.indexOf(",")+2, size.length-1) );
-    console.log("Width: " + width.toString());
+    console.log("setAdSize called");
+    var width = HotstarAppInterface.getWidth();
+    var height = HotstarAppInterface.getHeight();
+    console.log(width + ", " + height);
     window.resizeTo(width, height);
 }
 
 
-
-// Android functions
 function showWinnerMessage(s) {
     console.log("Winner: " + s);
     winner_statement.innerText = s;
-    // Android.showToast(s);
 }
 
+// Android functions
 function on_close() {
     console.log("Closing: Time-" + totalSeconds.toString());
-    Android.close();
+    HotstarAppInterface.close();
 }
 
 function open_url() {
     console.log("Opening URL");
-    Android.open("https://www.google.com");
-}
-
-function getScreenSize() {
-    console.log("Fetching display metrics");
-    size = Android.getScreenSize();
-    console.log(size);
+    var url = "https://www.google.com";
+    HotstarAppInterface.open(url);
 }
 
 function getOrientation() {
-    var orientation_ = Android.getOrientation();
+    var orientation_ = HotstarAppInterface.getOrientation();
     console.log("Orientation: " + orientation_);
 }
 
 function registerClick() {
     console.log("Click!");
-    Android.registerClick();
+    HotstarAppInterface.click();
 }
 
 function replay() {
     console.log("Replaying");
-    Android.registerReplay();
+    HotstarAppInterface.replay();
     hideEndScreen();
     reset_timer();
     reset_board();

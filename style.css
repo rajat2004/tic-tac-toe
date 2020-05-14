@@ -93,7 +93,6 @@ button:hover {
 }
 
 #replay-btn {
-    /*justify-content: space-between;*/
     position: absolute;
     top: 10px;
     left: 10px;
@@ -102,7 +101,6 @@ button:hover {
 #open-url-btn {
     position: absolute;
     top: 10px;
-    /*left: 50px;*/
 }
 
 @media screen and (max-width: 600px) {
